@@ -1,0 +1,211 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>隐式intent设置默认Activity | Fireflies's blog</title><meta name="author" content="Fireflies"><meta name="copyright" content="Fireflies"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="addPreferredActivityPMS中有接口addPreferredActivity设置默认的Activity:在PackageManager中也有对应的接口 12345678910111213141516171819202122232425&#x2F;** * Add a new preferred activity mapping to the system.  This will be us">
+<meta property="og:type" content="article">
+<meta property="og:title" content="隐式intent设置默认Activity">
+<meta property="og:url" content="http://example.com/2024/06/26/%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/8.Android%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4Activity/index.html">
+<meta property="og:site_name" content="Fireflies&#39;s blog">
+<meta property="og:description" content="addPreferredActivityPMS中有接口addPreferredActivity设置默认的Activity:在PackageManager中也有对应的接口 12345678910111213141516171819202122232425&#x2F;** * Add a new preferred activity mapping to the system.  This will be us">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/avatar.jpg">
+<meta property="article:published_time" content="2024-06-26T15:55:42.000Z">
+<meta property="article:modified_time" content="2025-01-14T08:14:21.170Z">
+<meta property="article:author" content="Fireflies">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/avatar.jpg"><link rel="shortcut icon" href="/img/ico.jpg"><link rel="canonical" href="http://example.com/2024/06/26/%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/8.Android%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4Activity/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '隐式intent设置默认Activity',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-01-14 08:14:21'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(20deg, #0062be, #925696, #cc426e, #FF8F00)"><nav id="nav"><span id="blog-info"><a href="/" title="Fireflies's blog"><img class="site-icon" src="/img/avatar.jpg"/><span class="site-name">Fireflies's blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">隐式intent设置默认Activity</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-06-26T15:55:42.000Z" title="发表于 2024-06-26 15:55:42">2024-06-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-01-14T08:14:21.170Z" title="更新于 2025-01-14 08:14:21">2025-01-14</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="隐式intent设置默认Activity"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="addPreferredActivity"><a href="#addPreferredActivity" class="headerlink" title="addPreferredActivity"></a>addPreferredActivity</h2><p>PMS中有接口<code>addPreferredActivity</code>设置默认的Activity:<br>在PackageManager中也有对应的接口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Add a new preferred activity mapping to the system.  This will be used</span><br><span class="line"> * to automatically select the given activity component when</span><br><span class="line"> * &#123;@link Context#startActivity(Intent) Context.startActivity()&#125; finds</span><br><span class="line"> * multiple matching activities and also matches the given filter.</span><br><span class="line"> *</span><br><span class="line"> * @param filter The set of intents under which this activity will be</span><br><span class="line"> * made preferred.</span><br><span class="line"> * @param match The IntentFilter match category that this preference</span><br><span class="line"> * applies to.</span><br><span class="line"> * @param set The set of activities that the user was picking from when</span><br><span class="line"> * this preference was made.</span><br><span class="line"> * @param activity The component name of the activity that is to be</span><br><span class="line"> * preferred.</span><br><span class="line"> *</span><br><span class="line"> * @deprecated This function no longer does anything. It is the platform&#x27;s</span><br><span class="line"> * responsibility to assign preferred activities and this cannot be modified</span><br><span class="line"> * directly. To determine the activities resolved by the platform, use</span><br><span class="line"> * &#123;@link #resolveActivity&#125; or &#123;@link #queryIntentActivities&#125;. To configure</span><br><span class="line"> * an app to be responsible for a particular role and to check current role</span><br><span class="line"> * holders, see &#123;@link android.app.role.RoleManager&#125;.</span><br><span class="line"> */</span><br><span class="line">@Deprecated</span><br><span class="line">public abstract void addPreferredActivity(@NonNull IntentFilter filter, int match,</span><br><span class="line">        @Nullable ComponentName[] set, @NonNull ComponentName activity);</span><br></pre></td></tr></table></figure>
+<p>PMS中的实现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">private void addPreferredActivityInternal(IntentFilter filter, int match,</span><br><span class="line">        ComponentName[] set, ComponentName activity, boolean always, int userId,</span><br><span class="line">        String opname) &#123;</span><br><span class="line">    // writer</span><br><span class="line">    int callingUid = Binder.getCallingUid();</span><br><span class="line">    mPermissionManager.enforceCrossUserPermission(callingUid, userId,</span><br><span class="line">            true /* requireFullPermission */, false /* checkShell */, &quot;add preferred activity&quot;);</span><br><span class="line">    if (mContext.checkCallingOrSelfPermission(</span><br><span class="line">            android.Manifest.permission.SET_PREFERRED_APPLICATIONS)</span><br><span class="line">            != PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">        synchronized (mLock) &#123;</span><br><span class="line">            if (getUidTargetSdkVersionLockedLPr(callingUid)</span><br><span class="line">                    &lt; Build.VERSION_CODES.FROYO) &#123;</span><br><span class="line">                Slog.w(TAG, &quot;Ignoring addPreferredActivity() from uid &quot;</span><br><span class="line">                        + callingUid);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        mContext.enforceCallingOrSelfPermission(</span><br><span class="line">                android.Manifest.permission.SET_PREFERRED_APPLICATIONS, null);</span><br><span class="line">    &#125;</span><br><span class="line">    if (filter.countActions() == 0) &#123;</span><br><span class="line">        Slog.w(TAG, &quot;Cannot set a preferred activity with no filter actions&quot;);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    if (DEBUG_PREFERRED) &#123;</span><br><span class="line">        Slog.i(TAG, opname + &quot; activity &quot; + activity.flattenToShortString() + &quot; for user &quot;</span><br><span class="line">                + userId + &quot;:&quot;);</span><br><span class="line">        filter.dump(new LogPrinter(Log.INFO, TAG), &quot;  &quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    synchronized (mLock) &#123;</span><br><span class="line">        //主要逻辑在这里，先保存到内存中</span><br><span class="line">        final PreferredIntentResolver pir = mSettings.editPreferredActivitiesLPw(userId);</span><br><span class="line">        pir.addFilter(new PreferredActivity(filter, match, set, activity, always));</span><br><span class="line">        //再持久化写到xml中，继续追源码发现是写在了/data/system/users/$&#123;user&#125;/package-restrictions.xml中</span><br><span class="line">        scheduleWritePackageRestrictionsLocked(userId);</span><br><span class="line">    &#125;</span><br><span class="line">    if (!updateDefaultHomeNotLocked(userId)) &#123;</span><br><span class="line">        postPreferredActivityChangedBroadcast(userId);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以对其进行封装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">public static boolean setDefaultHome(Context context, String pkg, String className) &#123;</span><br><span class="line">    Intent homeIntent = new Intent(Intent.ACTION_MAIN);</span><br><span class="line">    homeIntent.addCategory(Intent.CATEGORY_HOME);</span><br><span class="line">    homeIntent.addCategory(Intent.CATEGORY_DEFAULT);</span><br><span class="line">    return setDefaultIntentActivity(context, homeIntent, pkg, className);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static boolean setDefaultIntentActivity(Context context, Intent intent, String pkg, String className) &#123;</span><br><span class="line">    if (intent == null) &#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">    if (intent.getComponent() != null) &#123;</span><br><span class="line">        //显式intent无法设置</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">    PackageManager pm = context.getPackageManager();</span><br><span class="line">    try &#123;</span><br><span class="line">        PackageInfo packageInfo = pm.getPackageInfo(pkg, 0);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        //package不存在</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">    List&lt;IntentFilter&gt; intentFilters = new ArrayList&lt;&gt;();</span><br><span class="line">    List&lt;ComponentName&gt; componentNames = new ArrayList&lt;&gt;();</span><br><span class="line">    pm.getPreferredActivities(intentFilters, componentNames, null);</span><br><span class="line">    int size = intentFilters.size();</span><br><span class="line">    for (int i = 0; i &lt; size; i++) &#123;</span><br><span class="line">        IntentFilter intentFilter = intentFilters.get(i);</span><br><span class="line">        //匹配对应的intent</span><br><span class="line">        if (!intentFilter.hasAction(intent.getAction())) &#123;</span><br><span class="line">            continue;</span><br><span class="line">        &#125;</span><br><span class="line">        Set&lt;String&gt; categories = intent.getCategories();</span><br><span class="line">        boolean matchCategory = true;</span><br><span class="line">        for (String category : categories) &#123;</span><br><span class="line">            if (!intentFilter.hasCategory(category)) &#123;</span><br><span class="line">                matchCategory = false;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if (!matchCategory) &#123;</span><br><span class="line">            continue;</span><br><span class="line">        &#125;</span><br><span class="line">        // 清除对应intent的默认值</span><br><span class="line">        pm.clearPackagePreferredActivities(componentNames.get(i).getPackageName());</span><br><span class="line">    &#125;</span><br><span class="line">    List&lt;ResolveInfo&gt; resolveInfos = pm.queryIntentActivities(intent, 0);</span><br><span class="line">    int resolvedSize = resolveInfos.size();</span><br><span class="line">    ComponentName[] set = new ComponentName[resolvedSize];</span><br><span class="line">    int bestMatch = 0;</span><br><span class="line">    for (int i = 0; i &lt; resolvedSize; i++) &#123;</span><br><span class="line">        ResolveInfo resolveInfo = resolveInfos.get(i);</span><br><span class="line">        set[i] = new ComponentName(resolveInfo.activityInfo.packageName, resolveInfo.activityInfo.name);</span><br><span class="line">        if (resolveInfo.match &gt; bestMatch) &#123;</span><br><span class="line">            bestMatch = resolveInfo.match;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    IntentFilter intentFilter = new IntentFilter();</span><br><span class="line">    intentFilter.addAction(intent.getAction());</span><br><span class="line">    Set&lt;String&gt; categories = intent.getCategories();</span><br><span class="line">    for (String category : categories) &#123;</span><br><span class="line">        intentFilter.addCategory(category);</span><br><span class="line">    &#125;</span><br><span class="line">    pm.addPreferredActivity(intentFilter, bestMatch, set, new ComponentName(pkg, className));</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="RoleManager"><a href="#RoleManager" class="headerlink" title="RoleManager"></a>RoleManager</h2><p>查看<a target="_blank" rel="noopener" href="https://developer.android.google.cn/reference/kotlin/android/content/pm/PackageManager?hl=en#addpreferredactivity">官方文档</a><br>addPreferredActivity在很早的时候就已经废弃了，虽然目前还能使用，但官方建议使用<a target="_blank" rel="noopener" href="https://developer.android.google.cn/reference/android/app/role/RoleManager">RoleManager</a></p>
+<blockquote>
+<p>角色是系统中与特定权限相关联的唯一名称。<br>可用角色列表可能会随着系统应用程序的更新而更改，因此应用程序不应该假设角色的可用性。<br>在尝试对角色进行任何操作之前，应该始终使用isRoleAvailable(java.lang.String)查询角色是否可用。一些预定义的角色名在这个类中作为常量可用，并且可以在AndroidX role库中找到可能可用的角色列表</p>
+</blockquote>
+<blockquote>
+<p>可以有多个符合角色资格的应用程序，但只有其中的一个子集可以成为角色持有者。<br>要获得角色的资格，应用程序必须满足某些需求，包括在其清单中定义某些组件。这些需求可以在AndroidX库中找到。<br>然后，应用程序将需要用户同意才能成为角色持有人，这可以使用Activity请求startActivityForResult(Intent, int)使用从createRequestRoleIntent(java.lang.String . string)获得的Intent</p>
+</blockquote>
+<blockquote>
+<p>在成为角色持有者之后，应用程序可以被授予特定于角色的某些特权。当应用程序失去其角色时，这些特权也将被撤销</p>
+</blockquote>
+<p>由此可见，官方将隐式意图抽象成了一个角色，例如作为主页的app，可能有多个符合这个角色的app。</p>
+<h2 id="主要接口"><a href="#主要接口" class="headerlink" title="主要接口"></a>主要接口</h2><p>在Android 11中，有3个公开的接口<code>createRequestRoleIntent</code>,<code>isRoleAvailable</code>,<code>isRoleHeld</code>.</p>
+<h3 id="createRequestRoleIntent"><a href="#createRequestRoleIntent" class="headerlink" title="createRequestRoleIntent"></a>createRequestRoleIntent</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Returns an &#123;@code Intent&#125; suitable for passing to</span><br><span class="line"> * &#123;@link android.app.Activity#startActivityForResult(Intent, int)&#125; which prompts the user to</span><br><span class="line"> * grant a role to this application.</span><br><span class="line"> * &lt;p&gt;</span><br><span class="line"> * If the role is granted, the &#123;@code resultCode&#125; will be</span><br><span class="line"> * &#123;@link android.app.Activity#RESULT_OK&#125;, otherwise it will be</span><br><span class="line"> * &#123;@link android.app.Activity#RESULT_CANCELED&#125;.</span><br><span class="line"> *</span><br><span class="line"> * @param roleName the name of requested role</span><br><span class="line"> *</span><br><span class="line"> * @return the &#123;@code Intent&#125; to prompt user to grant the role</span><br><span class="line"> */</span><br><span class="line">@NonNull</span><br><span class="line">public Intent createRequestRoleIntent(@NonNull String roleName) &#123;</span><br><span class="line">    Preconditions.checkStringNotEmpty(roleName, &quot;roleName cannot be null or empty&quot;);</span><br><span class="line">    Intent intent = new Intent(ACTION_REQUEST_ROLE);</span><br><span class="line">    intent.setPackage(mContext.getPackageManager().getPermissionControllerPackageName());</span><br><span class="line">    intent.putExtra(Intent.EXTRA_ROLE_NAME, roleName);</span><br><span class="line">    return intent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Fireflies</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/06/26/%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/8.Android%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4Activity/">http://example.com/2024/06/26/%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/8.Android%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4Activity/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Fireflies's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/07/03/%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/9.PKMS%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/" title="PKMS相关问题记录"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">PKMS相关问题记录</div></div></a></div><div class="next-post pull-right"><a href="/2024/06/25/%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/7.AIDL-C++%E4%B8%AD%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96/" title="在C++中AIDL序列化对象"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">在C++中AIDL序列化对象</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Fireflies</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">92</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/FirefliesL"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#addPreferredActivity"><span class="toc-number">1.</span> <span class="toc-text">addPreferredActivity</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RoleManager"><span class="toc-number">2.</span> <span class="toc-text">RoleManager</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.</span> <span class="toc-text">主要接口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#createRequestRoleIntent"><span class="toc-number">3.1.</span> <span class="toc-text">createRequestRoleIntent</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/12/25/android_fw/26.AdbService/" title="AdbService">AdbService</a><time datetime="2024-12-25T14:50:32.000Z" title="发表于 2024-12-25 14:50:32">2024-12-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/12/11/android_fw/56.ActivityView/" title="ActivityView">ActivityView</a><time datetime="2024-12-11T10:51:06.000Z" title="发表于 2024-12-11 10:51:06">2024-12-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/12/06/android_fw/55.%E9%BB%98%E8%AE%A4%E8%BE%93%E5%85%A5%E6%B3%95/" title="默认输入法">默认输入法</a><time datetime="2024-12-06T15:40:04.000Z" title="发表于 2024-12-06 15:40:04">2024-12-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/12/03/%E5%85%B6%E5%AE%83/22.gradle%E7%AC%94%E8%AE%B0/" title="gradle笔记">gradle笔记</a><time datetime="2024-12-03T17:48:28.000Z" title="发表于 2024-12-03 17:48:28">2024-12-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/12/02/%E5%85%B6%E5%AE%83/21.javadoc%E7%94%9F%E6%88%90%E6%96%87%E6%A1%A3/" title="javadoc生成文档">javadoc生成文档</a><time datetime="2024-12-02T16:41:51.000Z" title="发表于 2024-12-02 16:41:51">2024-12-02</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By Fireflies</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
